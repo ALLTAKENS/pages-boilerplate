@@ -41,7 +41,7 @@ module.exports = {
   },
   build: {
     src: 'src',
-    dist: 'release',
+    dist: 'dist',
     temp: '.temp',
     public: 'public',
     paths: {

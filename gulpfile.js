@@ -168,9 +168,5 @@ module.exports = {
   build,
   start,
   serve,
-  deploy,
-  add,
-  commit,
-  pull,
-  push
+  deploy
 }
