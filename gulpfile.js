@@ -9,6 +9,9 @@ const plugins = loadPlugins()
 const browserSync = require('browser-sync')
 const bs = browserSync.create()
 const cwd = process.cwd()
+
+const exec = require('child_process').exec
+const argv = require('minimist')(process.argv.slice(2))
 let config = {
   // default config
   build: {
@@ -120,21 +123,53 @@ const useref = () => {
         .pipe(dest(config.build.dist))
 }
 
+// git add
+const add = done => {
+  exec('git add .', (err, stdot, stderr) => {
+    done(err)
+  })
+}
+// git commit
+const commit = done => {
+  let commitMsg = 'fix bugs'
+  // 提交信息
+  if(argv.m) {
+    commitMsg = argv.m
+  }
+  exec(`git commit -m ${commitMsg}`, (err, stdot, stderr) => {
+    done(err)
+  })
+}
+// git pull
+const pull = done => {
+  exec('git pull', (err, stdot, stderr) => {
+    done(err)
+  })
+}
+// git push
+const push = done => {
+  exec('git push', (err, stdot, stderr) => {
+    done(err)
+  })
+}
+
 const compile = parallel(style, script, page)
 
 // 上线前执行的任务
 const build = series(clean, parallel(series(compile, useref), extra, image, font)) 
 // 开发执行任务
 const start = series(compile, serve)
-const deploy = (val) => {
-  console.log(process.argv)
-  return Promise.resolve()
-}
+// 部署到git仓库
+const deploy = series(add, commit, pull, push)
 
 module.exports = {
   clean,
   build,
   start,
   serve,
-  deploy
+  deploy,
+  add,
+  commit,
+  pull,
+  push
 }
