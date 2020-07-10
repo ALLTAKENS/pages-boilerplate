@@ -136,7 +136,7 @@ const commit = done => {
   if(argv.m) {
     commitMsg = argv.m
   }
-  exec(`git commit -m ${commitMsg}`, (err, stdot, stderr) => {
+  exec(`git commit -m "${commitMsg}"`, (err, stdot, stderr) => {
     done(err)
   })
 }
