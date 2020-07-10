@@ -153,6 +153,7 @@ const push = done => {
   })
 }
 
+
 const compile = parallel(style, script, page)
 
 // 上线前执行的任务
